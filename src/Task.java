@@ -5,14 +5,14 @@ public class Task {
     private Status status;
 
     public Task(int id, String name, String description, Status status) {
+        // Добавляем валидацию и в конструктор
+        if (name == null || name.isBlank()) {
+            System.out.println("Имя не может быть пустым");
+        }
         this.id = id;
         this.name = name;
         this.description = description;
         this.status = status;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getId() {
@@ -23,7 +23,6 @@ public class Task {
         if (name == null || name.isBlank()) {
             System.out.println("Имя не может быть пустым");
         }
-
         this.name = name;
     }
 
@@ -32,10 +31,6 @@ public class Task {
     }
 
     public void setDescription(String description) {
-        if (description == null || description.isBlank()) {
-            System.out.println("Описание не может быть пустым");
-        }
-
         this.description = description;
     }
 
@@ -49,5 +44,14 @@ public class Task {
 
     public Status getStatus() {
         return status;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", status=" + status +
+                '}';
     }
 }
