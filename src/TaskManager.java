@@ -45,11 +45,7 @@ public class TaskManager {
     }
 
     public void deleteAllEpics() {
-        for (Epic epic : epics.values()) {
-            for (int subtaskId : epic.getSubtaskIds()) {
-                subtasks.remove(subtaskId);
-            }
-        }
+        subtasks.clear();
         epics.clear();
     }
 
@@ -177,6 +173,9 @@ public class TaskManager {
                 }
                 if (subtask.getStatus() != Status.NEW) {
                     allNew = false;
+                }
+                if (!allDone && !allNew) {
+                    break;
                 }
             }
         }
