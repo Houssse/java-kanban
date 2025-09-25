@@ -2,13 +2,14 @@ import javakanban.data.Epic;
 import javakanban.data.Status;
 import javakanban.data.Subtask;
 import javakanban.data.Task;
-import javakanban.manager.InMemoryTaskManager;
+import javakanban.manager.Managers;
+import javakanban.manager.TaskManager;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        InMemoryTaskManager manager = new InMemoryTaskManager();
+        TaskManager manager = Managers.getDefault();
 
         System.out.println("СОЗДАНИЕ ЗАДАЧ");
 
