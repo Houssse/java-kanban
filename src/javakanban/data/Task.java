@@ -1,3 +1,5 @@
+package javakanban.data;
+
 public class Task {
     protected int id;
     protected String title;
