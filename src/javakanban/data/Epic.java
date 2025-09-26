@@ -27,7 +27,8 @@ public class Epic extends Task {
     }
 
     public void removeSubtaskId(int subtaskId) {
-        subtaskIds.remove(Integer.valueOf(subtaskId));
+        boolean removed = subtaskIds.remove(Integer.valueOf(subtaskId));
+        System.out.println("Удаление подзадачи " + subtaskId + ": " + (removed ? "успешно" : "не найдена"));
     }
 
     public void clearSubtasks() {

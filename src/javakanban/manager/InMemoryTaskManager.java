@@ -130,14 +130,16 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Subtask createSubtask(Subtask subtask) {
+        Epic epic = epics.get(subtask.getEpicId());
+        if (epic == null) {
+            throw new IllegalArgumentException("Нельзя создать подзадачу для несуществующего эпика с ID: " + subtask.getEpicId());
+        }
+
         subtask.setId(generateId());
         subtasks.put(subtask.getId(), subtask);
 
-        Epic epic = epics.get(subtask.getEpicId());
-        if (epic != null) {
-            epic.addSubtaskId(subtask.getId());
-            updateEpicStatus(epic.getId());
-        }
+        epic.addSubtaskId(subtask.getId());
+        updateEpicStatus(epic.getId());
 
         return subtask;
     }
