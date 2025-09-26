@@ -12,13 +12,10 @@ public class InMemoryHistoryManager implements HistoryManager {
     public void add(Task task) {
         if (task == null) return;
 
-        // Удаляем задачу, если она уже есть в истории (чтобы избежать дубликатов)
         history.remove(task);
 
-        // Добавляем задачу в начало списка
         history.add(0, task);
 
-        // Удаляем самые старые задачи, если превышен лимит
         while (history.size() > MAX_HISTORY_SIZE) {
             history.remove(history.size() - 1);
         }
@@ -26,6 +23,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        return new ArrayList<>(history); // возвращаем копию
+        return new ArrayList<>(history);
     }
 }
