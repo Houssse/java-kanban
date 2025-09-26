@@ -2,6 +2,7 @@ package javakanban.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Epic extends Task {
     private List<Integer> subtaskIds;
@@ -12,11 +13,17 @@ public class Epic extends Task {
     }
 
     public List<Integer> getSubtaskIds() {
-        return subtaskIds;
+        return new ArrayList<>(subtaskIds);
     }
 
     public void addSubtaskId(int subtaskId) {
-        subtaskIds.add(subtaskId);
+        if (subtaskId == this.id) {
+            throw new IllegalArgumentException("Эпик не может быть своей же подзадачей");
+        }
+
+        if (!subtaskIds.contains(subtaskId)) {
+            subtaskIds.add(subtaskId);
+        }
     }
 
     public void removeSubtaskId(int subtaskId) {
@@ -36,5 +43,15 @@ public class Epic extends Task {
                 ", status=" + status +
                 ", subtaskIds=" + subtaskIds +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

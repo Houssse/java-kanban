@@ -22,21 +22,17 @@ class TaskTest {
 
     @Test
     void tasksWithSameIdShouldBeEqual() {
-        // Устанавливаем одинаковый id для разных задач
         task1.setId(1);
         task2.setId(1);
 
-        // Проверяем равенство
         assertEquals(task1, task2, "Задачи с одинаковым id должны быть равны");
 
-        // Проверяем хэш-код (важно для корректной работы в HashMap)
         assertEquals(task1.hashCode(), task2.hashCode(),
                 "HashCode должен быть одинаковым для равных задач");
     }
 
     @Test
     void tasksWithDifferentIdsShouldNotBeEqual() {
-        // Создаем задачи с одинаковыми данными, но разными id
         Task task1 = new Task("Задача", "Описание", Status.NEW);
         Task task2 = new Task("Задача", "Описание", Status.NEW);
 
@@ -76,19 +72,16 @@ class TaskTest {
         task1.setId(1);
         task2.setId(1);
 
-        // Проверяем в обе стороны
         assertEquals(task1, task2, "task1 должна быть равна task2");
         assertEquals(task2, task1, "task2 должна быть равна task1 (симметричность)");
     }
 
     @Test
     void settersAndGettersShouldWorkCorrectly() {
-        // Тестируем конструктор
         assertEquals("Задача 1", task1.getTitle());
         assertEquals("Описание задачи 1", task1.getDescription());
         assertEquals(Status.NEW, task1.getStatus());
 
-        // Тестируем сеттеры
         task1.setTitle("Новое название");
         task1.setDescription("Новое описание");
         task1.setStatus(Status.DONE);
@@ -114,11 +107,9 @@ class TaskTest {
 
     @Test
     void tasksWithDefaultIdShouldBeEqual() {
-        // Не устанавливаем id явно (остается 0 по умолчанию)
         Task task3 = new Task("Задача 3", "Описание 3", Status.NEW);
         Task task4 = new Task("Задача 4", "Описание 4", Status.DONE);
 
-        // Обе задачи имеют id=0, поэтому должны быть равны
         assertEquals(task3, task4, "Задачи с id=0 по умолчанию должны быть равны");
     }
 }
