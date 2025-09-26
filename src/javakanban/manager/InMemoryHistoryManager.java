@@ -12,12 +12,10 @@ public class InMemoryHistoryManager implements HistoryManager {
     public void add(Task task) {
         if (task == null) return;
 
-        history.remove(task);
-
-        history.add(0, task);
+        history.add(task);
 
         while (history.size() > MAX_HISTORY_SIZE) {
-            history.remove(history.size() - 1);
+            history.remove(0);
         }
     }
 

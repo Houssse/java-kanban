@@ -32,14 +32,14 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void addShouldAddTaskToBeginningOfHistory() {
+    void addShouldAddTaskToEndOfHistory() {
         historyManager.add(task1);
         historyManager.add(task2);
 
         List<Task> history = historyManager.getHistory();
         assertEquals(2, history.size());
-        assertEquals(task2, history.get(0), "Последняя добавленная задача должна быть первой");
-        assertEquals(task1, history.get(1), "Первая добавленная задача должна быть второй");
+        assertEquals(task1, history.get(0), "Первая добавленная задача должна быть в начале");
+        assertEquals(task2, history.get(1), "Последняя добавленная задача должна быть в конце");
     }
 
     @Test
@@ -51,21 +51,22 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void addShouldMoveExistingTaskToBeginning() {
+    void addShouldNotMoveExistingTask() {
         historyManager.add(task1);
         historyManager.add(task2);
         historyManager.add(task3);
 
         List<Task> history = historyManager.getHistory();
-        assertEquals(List.of(task3, task2, task1), history);
+        assertEquals(List.of(task1, task2, task3), history);
 
         historyManager.add(task2);
 
         history = historyManager.getHistory();
-        assertEquals(3, history.size(), "Размер истории не должен измениться");
-        assertEquals(task2, history.get(0), "Задача должна переместиться в начало");
-        assertEquals(task3, history.get(1));
-        assertEquals(task1, history.get(2));
+        assertEquals(4, history.size(), "Размер истории должен увеличиться");
+        assertEquals(task1, history.get(0), "Первая задача остается в начале");
+        assertEquals(task2, history.get(1), "Первое вхождение task2 остается на месте");
+        assertEquals(task3, history.get(2), "Task3 остается на месте");
+        assertEquals(task2, history.get(3), "Новая копия task2 добавляется в конец");
     }
 
     @Test
@@ -79,8 +80,8 @@ class InMemoryHistoryManagerTest {
         List<Task> history = historyManager.getHistory();
         assertEquals(10, history.size(), "История не должна превышать максимальный размер");
 
-        assertEquals(15, history.get(0).getId(), "Первой должна быть задача 15");
-        assertEquals(6, history.get(9).getId(), "Последней должна быть задача 6");
+        assertEquals(6, history.get(0).getId(), "Первой должна быть самая старая из оставшихся - задача 6");
+        assertEquals(15, history.get(9).getId(), "Последней должна быть самая новая - задача 15");
     }
 
     @Test
@@ -104,7 +105,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void tasksWithSameIdShouldBeTreatedAsEqual() {
+    void tasksWithSameIdShouldBeTreatedAsDifferent() {
         Task original = new Task("Оригинал", "Описание", Status.NEW);
         original.setId(1);
 
@@ -115,8 +116,8 @@ class InMemoryHistoryManagerTest {
         historyManager.add(modified);
 
         List<Task> history = historyManager.getHistory();
-        assertEquals(1, history.size(), "Задачи с одинаковым ID должны считаться одной задачей");
-        assertEquals("Измененная", history.get(0).getTitle(),
-                "В истории должна остаться последняя версия");
+        assertEquals(2, history.size(), "Задачи с одинаковым ID должны считаться разными задачами");
+        assertEquals("Оригинал", history.get(0).getTitle(), "Первая задача остается в начале");
+        assertEquals("Измененная", history.get(1).getTitle(), "Вторая задача добавляется в конец");
     }
 }
